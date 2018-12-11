@@ -19,7 +19,7 @@ public abstract class AbstractRpcExporter implements RpcExporter {
     protected static final Integer NCPUS = RuntimeUtil.getProcessors();
 
     @Override
-    public void exporter(String host, Integer port) throws RpcServerException {
+    public void export(String host, Integer port) throws RpcServerException {
         if (StringUtil.isEmpty(host)
                 || StringUtil.isEmpty(port)) {
             throw new RpcServerException(ExceptionCode.RPC_SERVER_PARAMS_INVALID.getKey(), 

@@ -8,5 +8,5 @@ import com.zheng.dsf.exceptions.RpcServerException;
  * @Date 2018/12/10
  */
 public interface RpcExporter {
-    void exporter(String host, Integer port) throws RpcServerException;
+    void export(String host, Integer port) throws RpcServerException;
 }

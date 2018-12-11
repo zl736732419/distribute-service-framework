@@ -83,5 +83,9 @@ public class RpcService implements Serializable {
             this.service.setArguments(arguments);
             return this;
         }
+        
+        public RpcService build() {
+            return this.service;
+        }
     }
 }
