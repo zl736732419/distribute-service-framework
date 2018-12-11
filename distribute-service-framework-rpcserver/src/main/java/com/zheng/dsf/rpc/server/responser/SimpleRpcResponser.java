@@ -19,7 +19,6 @@ public class SimpleRpcResponser implements RpcResponser {
         if (StringUtil.isEmpty(result) || StringUtil.isEmpty(output)) {
             return;
         }
-
         ObjectOutputStream objOutput;
         try {
             objOutput = new ObjectOutputStream(output);

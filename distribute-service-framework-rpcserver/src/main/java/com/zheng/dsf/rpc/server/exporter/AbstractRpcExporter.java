@@ -2,6 +2,7 @@ package com.zheng.dsf.rpc.server.exporter;
 
 import com.zheng.dsf.exceptions.ExceptionCode;
 import com.zheng.dsf.exceptions.RpcServerException;
+import com.zheng.dsf.rpc.domain.HostPort;
 import com.zheng.dsf.utils.RuntimeUtil;
 import com.zheng.dsf.utils.StringUtil;
 import org.slf4j.Logger;
@@ -19,14 +20,13 @@ public abstract class AbstractRpcExporter implements RpcExporter {
     protected static final Integer NCPUS = RuntimeUtil.getProcessors();
 
     @Override
-    public void export(String host, Integer port) throws RpcServerException {
-        if (StringUtil.isEmpty(host)
-                || StringUtil.isEmpty(port)) {
+    public void export(HostPort address) throws RpcServerException {
+        if (StringUtil.isEmpty(address)) {
             throw new RpcServerException(ExceptionCode.RPC_SERVER_PARAMS_INVALID.getKey(), 
-                    "invalid params to start rpc server, host: [" + host + "], port: [" + port + "]");
+                    "invalid params to start rpc server, address: [" + address + "]");
         }
-        doExporter(host, port);
+        doExporter(address);
     }
 
-    protected abstract void doExporter(String host, Integer port) throws RpcServerException;
+    protected abstract void doExporter(HostPort address) throws RpcServerException;
 }

@@ -1,11 +1,16 @@
 package com.zheng.dsf.rpc.serializer;
 
+import com.zheng.dsf.exceptions.ExceptionCode;
 import com.zheng.dsf.exceptions.RpcException;
+import com.zheng.dsf.exceptions.RpcServerException;
 import com.zheng.dsf.rpc.domain.RpcService;
 import com.zheng.dsf.utils.StringUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * 基于流的消息序列化
@@ -13,7 +18,7 @@ import java.io.ObjectInputStream;
  * @Author zhenglian
  * @Date 2018/12/10
  */
-public class StreamRpcMessageSerializer implements RpcMessageSerializer<RpcService>{
+public class StreamRpcMessageSerializer implements RpcMessageSerializer<byte[], RpcService> {
     @Override
     public RpcService deserialize(InputStream input) throws RpcException {
         if (StringUtil.isEmpty(input)) {
@@ -23,7 +28,7 @@ public class StreamRpcMessageSerializer implements RpcMessageSerializer<RpcServi
         RpcService service;
         ObjectInputStream objInput;
         try {
-             objInput = new ObjectInputStream(input);
+            objInput = new ObjectInputStream(input);
             String interfaceName = objInput.readUTF();
             String methodName = objInput.readUTF();
             Class<?>[] parameterTypes = (Class<?>[]) objInput.readObject();
@@ -39,4 +44,34 @@ public class StreamRpcMessageSerializer implements RpcMessageSerializer<RpcServi
         }
         return service;
     }
+
+    @Override
+    public byte[] serialize(RpcService service) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        ObjectOutputStream objOutput = null;
+        try {
+            objOutput = new ObjectOutputStream(output);
+            // 类名
+            objOutput.writeUTF(service.getInterfaceName());
+            // 方法名
+            objOutput.writeUTF(service.getMethodName());
+            // 参数类型数组
+            objOutput.writeObject(service.getParameterTypes());
+            // 参数
+            objOutput.writeObject(service.getArguments());
+            return output.toByteArray();
+        } catch (IOException e) {
+            throw new RpcException(ExceptionCode.RPC_STREAM_EXCEPTION, e);
+        } finally {
+            if (StringUtil.isNotEmpty(objOutput)) {
+                try {
+                    objOutput.close();
+                } catch (IOException e) {
+                    throw new RpcServerException(ExceptionCode.RPC_STREAM_EXCEPTION, e);
+                }
+            }
+        }
+    }
+
+
 }

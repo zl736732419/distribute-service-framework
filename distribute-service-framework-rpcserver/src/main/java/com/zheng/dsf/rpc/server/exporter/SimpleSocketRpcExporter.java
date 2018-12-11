@@ -1,6 +1,7 @@
 package com.zheng.dsf.rpc.server.exporter;
 
 import com.zheng.dsf.exceptions.RpcServerException;
+import com.zheng.dsf.rpc.domain.HostPort;
 import com.zheng.dsf.rpc.server.exporter.task.ExporterTask;
 import com.zheng.dsf.utils.StringUtil;
 
@@ -21,8 +22,10 @@ public class SimpleSocketRpcExporter extends AbstractRpcExporter {
     private ExecutorService executor = Executors.newFixedThreadPool(NCPUS);
     
     @Override
-    protected void doExporter(String host, Integer port) throws RpcServerException {
+    protected void doExporter(HostPort address) throws RpcServerException {
         ServerSocket ss = null;
+        String host = address.getHost();
+        Integer port = address.getPort();
         try {
             ss = new ServerSocket();
             ss.bind(new InetSocketAddress(host, port));

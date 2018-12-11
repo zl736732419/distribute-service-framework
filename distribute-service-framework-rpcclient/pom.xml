@@ -12,7 +12,11 @@
     <artifactId>distribute-service-framework-rpcclient</artifactId>
     
     <dependencies>
-        
+        <dependency>
+            <groupId>com.zheng.dsf</groupId>
+            <artifactId>distribute-service-framework-commons</artifactId>
+            <version>${framework.version}</version>
+        </dependency>
     </dependencies>
 
 

@@ -27,7 +27,7 @@ import java.net.Socket;
  */
 public class ExporterTask implements Runnable {
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    private RpcMessageSerializer<RpcService> serializer = new StreamRpcMessageSerializer();
+    private RpcMessageSerializer<byte[], RpcService> serializer = new StreamRpcMessageSerializer();
     private RpcInvoker invoker = new SimpleRpcInvoker();
     private RpcResponser responser = new SimpleRpcResponser();
     private Socket socket;

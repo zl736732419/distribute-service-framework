@@ -9,7 +9,7 @@ import java.io.InputStream;
  * @Author zhenglian
  * @Date 2018/12/10
  */
-public interface RpcMessageSerializer<T> {
+public interface RpcMessageSerializer<R, T> {
     /**
      * 反序列化给定对象
      * @param input
@@ -17,4 +17,11 @@ public interface RpcMessageSerializer<T> {
      * @throws RpcException
      */
     T deserialize(InputStream input) throws RpcException;
+
+    /**
+     * 将对象序列化成字节数组
+     * @param t
+     * @return
+     */
+    R serialize(T t);
 }
