@@ -42,6 +42,7 @@
     
     <modules>
         <module>distribute-service-framework-commons</module>
-        <module>distribute-service-framework-rcpserver</module>
+        <module>distribute-service-framework-rpcserver</module>
+        <module>distribute-service-framework-rpcclient</module>
     </modules>
 </project>

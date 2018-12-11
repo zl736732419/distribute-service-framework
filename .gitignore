@@ -4,6 +4,6 @@
 /target/
 /distribute-service-framework-commons/distribute-service-framework-commons.iml
 /distribute-service-framework-commons/target/
-/distribute-service-framework-rcpserver/target/
-/distribute-service-framework-rcpserver/distribute-service-framework-rcpserver.iml
 /distribute-service-framework.log
+/distribute-service-framework-rpcserver/distribute-service-framework-rpcserver.iml
+/distribute-service-framework-rpcserver/target/
