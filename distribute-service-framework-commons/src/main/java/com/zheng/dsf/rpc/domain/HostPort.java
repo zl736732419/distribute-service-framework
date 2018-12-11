@@ -13,11 +13,11 @@ public class HostPort {
     /**
      * 主机名
      */
-    private String host;
+    private String host = DEFAULT_HOST;
     /**
      * 端口号
      */
-    private Integer port;
+    private Integer port = DEFAULT_PORT;
 
     public String getHost() {
         return host;
@@ -35,18 +35,16 @@ public class HostPort {
         }
         
         public Builder host(String host) {
-            if (StringUtil.isEmpty(host)) {
-                host = DEFAULT_HOST;
+            if (StringUtil.isNotEmpty(host)) {
+                address.host = host;
             }
-            address.host = host;
             return this;
         }
 
         public Builder port(Integer port) {
-            if (StringUtil.isEmpty(port)) {
-                port = DEFAULT_PORT;
+            if (StringUtil.isNotEmpty(port)) {
+                address.port = port;
             }
-            address.port = port;
             return this;
         }
         

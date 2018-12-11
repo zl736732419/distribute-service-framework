@@ -10,6 +10,7 @@ import com.zheng.dsf.utils.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -22,7 +23,6 @@ import java.net.Socket;
  */
 public class SimpleSocketRpcRequester implements RpcRequester<Object, RpcService> {
     private RpcMessageSerializer<byte[], RpcService> serializer = new StreamRpcMessageSerializer();
-    
     
     @Override
     public Object request(RpcService rpcService, HostPort address) {
@@ -38,13 +38,16 @@ public class SimpleSocketRpcRequester implements RpcRequester<Object, RpcService
         try {
             socket.connect(new InetSocketAddress(host, port), timeout);
             input = socket.getInputStream();
-            output = socket.getOutputStream();
-            byte[] bytes = serializer.serialize(rpcService);
-            output.write(bytes);
-            output.flush();
-            
+            output = socket.getOutputStream(); 
+            // 发送远程调用请求
+            writeRequest(output, rpcService);
+            // 获取远程调用结果
+            Object result = readResponse(input);
+            return result;
         } catch (IOException e) {
             throw new RpcClientException(ExceptionCode.RPC_STREAM_EXCEPTION, e);
+        } catch (ClassNotFoundException e) {
+            throw new RpcClientException(ExceptionCode.RPC_CLIENT_HANDLE_RESULT_EXCEPTION, e);
         } finally {
             if (StringUtil.isEmpty(input)) {
                 try {
@@ -61,8 +64,19 @@ public class SimpleSocketRpcRequester implements RpcRequester<Object, RpcService
                 }
             }
         }
+    }
 
-        return null;
+    private Object readResponse(InputStream input) throws IOException, ClassNotFoundException {
+        ObjectInputStream objInput = new ObjectInputStream(input);
+        Object result = objInput.readObject();
+        return result;
+
+    }
+
+    private void writeRequest(OutputStream output, RpcService rpcService) throws IOException {
+        byte[] bytes = serializer.serialize(rpcService);
+        output.write(bytes);
+        output.flush();
     }
 
     private Integer getTimeout() {

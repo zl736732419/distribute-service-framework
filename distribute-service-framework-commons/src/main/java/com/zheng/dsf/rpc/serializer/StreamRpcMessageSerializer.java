@@ -29,12 +29,12 @@ public class StreamRpcMessageSerializer implements RpcMessageSerializer<byte[], 
         ObjectInputStream objInput;
         try {
             objInput = new ObjectInputStream(input);
-            String interfaceName = objInput.readUTF();
+            String serviceSimpleName = objInput.readUTF();
             String methodName = objInput.readUTF();
             Class<?>[] parameterTypes = (Class<?>[]) objInput.readObject();
             Object[] arguments = (Object[]) objInput.readObject();
             service = new RpcService.Builder()
-                    .interfaceName(interfaceName)
+                    .serviceSimpleName(serviceSimpleName)
                     .methodName(methodName)
                     .parameterTypes(parameterTypes)
                     .arguments(arguments)
@@ -52,7 +52,7 @@ public class StreamRpcMessageSerializer implements RpcMessageSerializer<byte[], 
         try {
             objOutput = new ObjectOutputStream(output);
             // 类名
-            objOutput.writeUTF(service.getInterfaceName());
+            objOutput.writeUTF(service.getServiceSimpleName());
             // 方法名
             objOutput.writeUTF(service.getMethodName());
             // 参数类型数组

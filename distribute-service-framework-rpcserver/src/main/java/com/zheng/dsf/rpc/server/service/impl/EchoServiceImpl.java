@@ -10,6 +10,6 @@ import com.zheng.dsf.rpc.services.EchoService;
 public class EchoServiceImpl implements EchoService {
     @Override
     public String echo(String string) {
-        return StringUtil.isEmpty(string) ? "I'm OK." : string + " --> I'am Ok";
+        return StringUtil.isEmpty(string) ? "I'm ok." : string + " --> I'am ok";
     }
 }

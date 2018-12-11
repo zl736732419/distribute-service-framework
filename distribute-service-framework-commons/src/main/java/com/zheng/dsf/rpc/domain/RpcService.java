@@ -9,9 +9,10 @@ import java.io.Serializable;
  */
 public class RpcService implements Serializable {
     /**
-     * 接口名称
+     * 接口简名，对应于服务接口查找key
+     * 注意驼峰形式，首字母小写
      */
-    private String interfaceName;
+    private String serviceSimpleName;
     /**
      * 方法名称
      */
@@ -25,12 +26,12 @@ public class RpcService implements Serializable {
      */
     private Object[] arguments;
 
-    public String getInterfaceName() {
-        return interfaceName;
+    public String getServiceSimpleName() {
+        return serviceSimpleName;
     }
 
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
+    public void setServiceSimpleName(String serviceSimpleName) {
+        this.serviceSimpleName = serviceSimpleName;
     }
 
     public String getMethodName() {
@@ -64,8 +65,8 @@ public class RpcService implements Serializable {
             this.service = new RpcService();
         }
         
-        public Builder interfaceName(String interfaceName) {
-            this.service.setInterfaceName(interfaceName);
+        public Builder serviceSimpleName(String serviceSimpleName) {
+            this.service.setServiceSimpleName(serviceSimpleName);
             return this;
         }
 
