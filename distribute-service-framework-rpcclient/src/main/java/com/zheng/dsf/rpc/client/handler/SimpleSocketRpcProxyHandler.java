@@ -1,7 +1,7 @@
 package com.zheng.dsf.rpc.client.handler;
 
-import com.zheng.dsf.rpc.client.requester.RpcRequester;
-import com.zheng.dsf.rpc.client.requester.SimpleSocketRpcRequester;
+import com.zheng.dsf.rpc.client.importer.RpcImporter;
+import com.zheng.dsf.rpc.client.importer.SimpleSocketRpcImporter;
 import com.zheng.dsf.rpc.domain.HostPort;
 import com.zheng.dsf.rpc.domain.RpcService;
 import com.zheng.dsf.utils.StringUtil;
@@ -17,13 +17,13 @@ import java.lang.reflect.Method;
  * @Author zhenglian
  * @Date 2018/12/11
  */
-public class SimpleRpcProxyHandler<T> implements InvocationHandler {
+public class SimpleSocketRpcProxyHandler implements InvocationHandler {
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    private RpcRequester requester = new SimpleSocketRpcRequester();
+    private RpcImporter importer = new SimpleSocketRpcImporter();
     
     private HostPort address;
     
-    public SimpleRpcProxyHandler(HostPort address) {
+    public SimpleSocketRpcProxyHandler(HostPort address) {
         this.address = address;
     }
     
@@ -32,7 +32,7 @@ public class SimpleRpcProxyHandler<T> implements InvocationHandler {
         // 1.构造远程接口调用参数
         RpcService rpcService = buildRpcService(proxy, method, args);
         // 2.socket调用
-        Object result = requester.request(rpcService, address);
+        Object result = importer.importer(rpcService, address);
         return result;
     }
 

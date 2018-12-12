@@ -1,6 +1,6 @@
 package com.zheng.dsf.rpc.client.proxy;
 
-import com.zheng.dsf.rpc.client.handler.SimpleRpcProxyHandler;
+import com.zheng.dsf.rpc.client.handler.SimpleSocketRpcProxyHandler;
 import com.zheng.dsf.rpc.domain.HostPort;
 import com.zheng.dsf.utils.StringUtil;
 
@@ -19,7 +19,7 @@ public class RpcServiceProxy<T> {
             return null;
         }
         ClassLoader loader = service.getClassLoader();
-        T proxyService = (T) Proxy.newProxyInstance(loader, new Class<?>[] {service}, new SimpleRpcProxyHandler<>(address));
+        T proxyService = (T) Proxy.newProxyInstance(loader, new Class<?>[] {service}, new SimpleSocketRpcProxyHandler(address));
         return proxyService;
     }
 }

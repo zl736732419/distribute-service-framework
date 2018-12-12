@@ -1,4 +1,4 @@
-package com.zheng.dsf.rpc.client.requester;
+package com.zheng.dsf.rpc.client.importer;
 
 import com.zheng.dsf.exceptions.ExceptionCode;
 import com.zheng.dsf.exceptions.RpcClientException;
@@ -21,11 +21,11 @@ import java.net.Socket;
  * @Author zhenglian
  * @Date 2018/12/11
  */
-public class SimpleSocketRpcRequester implements RpcRequester<Object, RpcService> {
+public class SimpleSocketRpcImporter implements RpcImporter<Object, RpcService> {
     private RpcMessageSerializer<byte[], RpcService> serializer = new StreamRpcMessageSerializer();
     
     @Override
-    public Object request(RpcService rpcService, HostPort address) {
+    public Object importer(RpcService rpcService, HostPort address) {
         if (StringUtil.isEmpty(rpcService) || StringUtil.isEmpty(address)) {
             return null;
         }
